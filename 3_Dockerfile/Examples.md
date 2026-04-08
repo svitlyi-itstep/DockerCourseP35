@@ -69,6 +69,26 @@ r = requests.get("https://api.github.com")
 print("GitHub status:", r.status_code)
 ```
 
+### Creating venv and requirements.txt:
+```bash
+# Створення venv
+python -m venv venv
+
+# Запуск venv
+venv/Scripts/activate
+
+# Встановлення модуля requests
+# (повторити для всіх необхідних модулів)
+pip install requests
+
+# Створення файлу requirements.txt
+pip freeze > requirements.txt
+
+# Деактивація venv
+deactivate
+```
+
+
 ### Build and run:
 ```bash
 docker build -t pyapp .
