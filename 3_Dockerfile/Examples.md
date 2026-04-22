@@ -164,3 +164,31 @@ cd myapp
 docker build -t reactapp .
 docker run -d -p 8080:80 reactapp
 ```
+
+## 6. ASP.NET Core Web API
+
+### Dockerfile:
+```dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /source
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:80
+
+EXPOSE 80
+EXPOSE 443
+
+COPY *.sln .
+COPY <PROJECT NAME>/*.csproj ./<PROJECT NAME>/
+RUN dotnet restore <PROJECT NAME>/<PROJECT NAME>.csproj
+
+COPY <PROJECT NAME>/. ./<PROJECT NAME>/
+WORKDIR /source/<PROJECT NAME>
+RUN dotnet publish -c release -o /app
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app ./
+
+ENTRYPOINT ["dotnet", "<PROJECT NAME>.dll"]
+```
